@@ -1,0 +1,24 @@
+server:
+  port: ${PORT}
+
+spring:
+  application:
+    name: grab-auth-service
+  config:
+    activate:
+      on-profile: uat
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:3600}  # Default if missing
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:8600}  # Default if missing
