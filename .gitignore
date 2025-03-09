@@ -54,7 +54,6 @@ Thumbs.db
 *.env
 *.properties
 
+
 ### Jar Files ###
 *.jar
-
-
