@@ -9,6 +9,7 @@ on:
 
 env:
   GKE_NAMESPACE: 'grab-api-gateway'
+  environment: 'development'
 
 jobs:
   build:
