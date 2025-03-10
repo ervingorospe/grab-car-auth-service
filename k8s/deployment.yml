@@ -77,4 +77,4 @@ spec:
   selector:
     app: grab-auth-service
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
