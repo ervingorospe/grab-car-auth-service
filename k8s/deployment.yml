@@ -23,7 +23,7 @@ spec:
         app: grab-auth-service
     spec:
       containers:
-        - image: ervincode/grabcar-auth-service:latest
+        - image: ervincode/grabcar-auth-service:${IMAGE_TAG}
           imagePullPolicy: Always
           name: grabcar-auth-service
           env:

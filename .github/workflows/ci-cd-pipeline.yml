@@ -9,6 +9,7 @@ on:
 
 env:
   GKE_NAMESPACE: 'grab-car'
+  IMAGE_NAME: '${{ secrets.DOCKER_USERNAME }}/grabcar-auth-service'
 
 jobs:
   build:
@@ -36,10 +37,30 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/grabcar-auth-service:latest .
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/grabcar-auth-service:latest
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push $IMAGE_NAME:latest
+
+      - name: Set Image Tag for Deployment
+        run: |
+          export IMAGE_TAG=${{ github.sha }}
+          envsubst < k8s/deployment.yml > k8s/deployment-updated.yml
+          mv k8s/deployment-updated.yml k8s/deployment.yml
+          echo "Updated deployment.yml:"
+          cat k8s/deployment.yml
+
+      - name: Upload Deployment Manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-manifest
+          path: k8s/deployment.yml
 
   deploy:
     needs: build
@@ -78,7 +99,17 @@ jobs:
       - name: Install GKE Auth Plugin
         run: sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin
 
+      - name: Download Updated Deployment Manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-manifest
+          path: k8s
+
+      - name: Debug Deployment YAML
+        run: cat k8s/deployment.yml
+
       - name: Deploy to GKE
         run: |
           kubectl get namespace $GKE_NAMESPACE || kubectl create namespace $GKE_NAMESPACE
           kubectl apply -f k8s/deployment.yml -n $GKE_NAMESPACE
+          kubectl rollout restart deployment grab-api-gateway -n $GKE_NAMESPACE
