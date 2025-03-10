@@ -26,8 +26,6 @@ spec:
         - image: ervincode/grabcar-auth-service:latest
           imagePullPolicy: IfNotPresent
           name: grabcar-auth-service
-          ports:
-            - containerPort: 9000
           env:
             - name: ENV
               valueFrom:
