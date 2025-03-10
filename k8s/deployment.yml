@@ -8,7 +8,7 @@ metadata:
   name: grab-auth-service
   namespace: grab-car
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: grab-auth-service
