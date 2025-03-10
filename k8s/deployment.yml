@@ -66,7 +66,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: jwt-secrets
-                  key: JWT_expiration
+                  key: JWT_EXPIRATION
             - name: JWT_REFRESH_EXPIRATION
               valueFrom:
                 secretKeyRef:
