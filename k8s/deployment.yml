@@ -1,12 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
   labels:
     app: grab-api-gateway
-  name: grab-auth-service
+  name: grab-car
   namespace: grab-api-gateway
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: grab-auth-service
@@ -23,7 +25,7 @@ spec:
       containers:
         - image: ervincode/grabcar-auth-service:latest
           imagePullPolicy: IfNotPresent
-          name: grab-auth-service
+          name: grabcar-auth-service
           ports:
             - containerPort: 9000
           env:
@@ -66,7 +68,7 @@ metadata:
   labels:
     app: grab-auth-service
   name: grab-auth-service
-  namespace: grab-api-gateway
+  namespace: grab-car
 spec:
   ports:
     - port: 9000
