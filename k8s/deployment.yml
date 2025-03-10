@@ -6,7 +6,7 @@ metadata:
   labels:
     app: grab-api-gateway
   name: grab-car
-  namespace: grab-api-gateway
+  namespace: grab-car
 spec:
   replicas: 2
   selector:
