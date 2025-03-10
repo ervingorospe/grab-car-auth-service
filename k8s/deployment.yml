@@ -90,4 +90,4 @@ spec:
   selector:
     app: grab-auth-service
   sessionAffinity: None
-  type: LoadBalancer
+  type: ClusterIP
