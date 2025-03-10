@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - image: ervincode/grabcar-auth-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: grabcar-auth-service
           env:
             - name: ENV
