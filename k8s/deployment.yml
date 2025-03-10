@@ -62,7 +62,7 @@ spec:
                 secretKeyRef:
                   name: jwt-secrets
                   key: JWT_SECRET
-            - name: JWT_expiration
+            - name: JWT_EXPIRATION
               valueFrom:
                 secretKeyRef:
                   name: jwt-secrets
