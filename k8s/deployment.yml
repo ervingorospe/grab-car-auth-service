@@ -4,8 +4,8 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
   labels:
-    app: grab-api-gateway
-  name: grab-car
+    app: grab-auth-service
+  name: grab-auth-service
   namespace: grab-car
 spec:
   replicas: 2
