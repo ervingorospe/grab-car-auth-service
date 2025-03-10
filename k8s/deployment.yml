@@ -57,6 +57,21 @@ spec:
                 configMapKeyRef:
                   name: app-config
                   key: DB_DRIVER
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: jwt-secrets
+                  key: JWT_SECRET
+            - name: JWT_expiration
+              valueFrom:
+                configMapKeyRef:
+                  name: jwt-secrets
+                  key: JWT_expiration
+            - name: JWT_REFRESH_EXPIRATION
+              valueFrom:
+                configMapKeyRef:
+                  name: jwt-secrets
+                  key: JWT_REFRESH_EXPIRATION
 
 ---
 #services
