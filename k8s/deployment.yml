@@ -84,9 +84,9 @@ metadata:
   namespace: grab-car
 spec:
   ports:
-    - port: 8000
+    - port: 9000
       protocol: TCP
-      targetPort: 8000
+      targetPort: 9000
   selector:
     app: grab-auth-service
   sessionAffinity: None
