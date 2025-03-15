@@ -1,9 +1,6 @@
 package com.ervingorospe.grab_auth_service.controller;
 
-import com.ervingorospe.grab_auth_service.model.DTO.AuthRequest;
-import com.ervingorospe.grab_auth_service.model.DTO.AuthResponse;
-import com.ervingorospe.grab_auth_service.model.DTO.RefreshTokenRequest;
-import com.ervingorospe.grab_auth_service.model.DTO.UserDTO;
+import com.ervingorospe.grab_auth_service.model.DTO.*;
 import com.ervingorospe.grab_auth_service.model.entity.User;
 import com.ervingorospe.grab_auth_service.service.auth.AuthService;
 import com.ervingorospe.grab_auth_service.service.user.UserService;
@@ -31,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> userRegister(@Valid @RequestBody User user) {
+    public ResponseEntity<UserDTO> userRegister(@Valid @RequestBody UserRegistrationDTO user) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 

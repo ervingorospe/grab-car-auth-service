@@ -16,6 +16,8 @@ spring:
         hibernate:
             ddl-auto: none
         show-sql: true
+    jackson:
+        date-format: dd-MM-yyyy
 
 
 jwt:
