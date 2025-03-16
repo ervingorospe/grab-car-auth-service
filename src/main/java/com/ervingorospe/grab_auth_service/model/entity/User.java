@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,6 +41,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserDetails userDetails;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserAddress> address;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -57,9 +61,9 @@ public class User {
     }
 
     public User(UserRegistrationDTO userRegistrationDTO) {
-        this.email = userRegistrationDTO.getEmail();
-        this.password = userRegistrationDTO.getPassword();
-        this.userRole = Optional.ofNullable(userRegistrationDTO.getUserRole()).orElse(Role.CLIENT);
+        this.email = userRegistrationDTO.email();
+        this.password = userRegistrationDTO.password();
+        this.userRole = Optional.ofNullable(userRegistrationDTO.userRole()).orElse(Role.CLIENT);
         this.active = true;
     }
 

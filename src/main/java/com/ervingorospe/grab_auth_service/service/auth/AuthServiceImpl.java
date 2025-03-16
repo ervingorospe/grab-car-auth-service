@@ -25,9 +25,9 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public AuthResponse authLogin(AuthRequest authRequest) {
-        User user = repository.findByEmail(authRequest.getEmail()).orElseThrow(() -> new UserNotFoundException("Invalid email or password"));
+        User user = repository.findByEmail(authRequest.email()).orElseThrow(() -> new UserNotFoundException("Invalid email or password"));
 
-        if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(authRequest.password(), user.getPassword())) {
             throw new UserNotFoundException("Invalid email or password");
         }
 

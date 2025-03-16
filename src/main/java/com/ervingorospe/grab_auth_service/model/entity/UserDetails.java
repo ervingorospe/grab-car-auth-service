@@ -62,9 +62,9 @@ public class UserDetails {
     }
 
    public UserDetails(UserRegistrationDTO userRegistrationDTO) {
-        this.firstName = userRegistrationDTO.getFirstName();
-        this.lastName = userRegistrationDTO.getLastName();
-        this.birthDate = userRegistrationDTO.getBirthDate();
-        this.contactNumber = userRegistrationDTO.getContactNumber();
+        this.firstName = userRegistrationDTO.firstName();
+        this.lastName = userRegistrationDTO.lastName();
+        this.birthDate = userRegistrationDTO.birthDate();
+        this.contactNumber = userRegistrationDTO.contactNumber();
    }
 }
