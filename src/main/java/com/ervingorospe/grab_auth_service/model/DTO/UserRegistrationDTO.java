@@ -34,6 +34,7 @@ public record UserRegistrationDTO(
 
     @NotNull(message = "Provide a Contact Number")
     @PhoneNumber(message = "Invalid Phone Number")
+    @JsonProperty("contact_number")
     String contactNumber,
 
     @NotNull(message = "Provide your address")
