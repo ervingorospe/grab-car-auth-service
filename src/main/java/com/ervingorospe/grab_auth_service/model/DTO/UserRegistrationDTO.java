@@ -48,6 +48,7 @@ public record UserRegistrationDTO(
     @JsonProperty("confirm_password")
     String confirmPassword,
 
+    @JsonProperty("role")
     User.Role userRole
 ) {
     // Default constructor setting userRole to CLIENT
@@ -59,8 +60,22 @@ public record UserRegistrationDTO(
         String contactNumber,
         UserAddressDTO address,
         String password,
-        String confirmPassword
+        String confirmPassword,
+        String userRole
     ) {
-        this(firstName, lastName, email, birthDate, contactNumber, address, password, confirmPassword, User.Role.CLIENT);
+        this(
+            firstName,
+            lastName,
+            email,
+            birthDate,
+            contactNumber,
+            address,
+            password,
+            confirmPassword,
+            (userRole != null && !userRole.isBlank())
+                    ? User.Role.valueOf(userRole.toUpperCase()) // Convert String to Enum
+                    : User.Role.CLIENT // Default to CLIENT
+
+        );
     }
 }
