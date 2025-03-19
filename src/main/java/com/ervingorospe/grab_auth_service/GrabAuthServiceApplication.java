@@ -21,6 +21,7 @@ public class GrabAuthServiceApplication {
 			System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
 			System.setProperty("JWT_expiration", dotenv.get("JWT_expiration"));
 			System.setProperty("JWT_REFRESH_EXPIRATION", dotenv.get("JWT_REFRESH_EXPIRATION"));
+            System.setProperty("KAFKA_SERVER", dotenv.get("KAFKA_SERVER"));
 		} else {
 			// Running in Kubernetes (use environment variables)
 			System.setProperty("DB_URL", System.getenv("DB_URL"));
@@ -30,6 +31,7 @@ public class GrabAuthServiceApplication {
 			System.setProperty("JWT_SECRET", System.getenv("JWT_SECRET"));
 			System.setProperty("JWT_EXPIRATION", System.getenv("JWT_EXPIRATION"));
 			System.setProperty("JWT_REFRESH_EXPIRATION", System.getenv("JWT_REFRESH_EXPIRATION"));
+            System.setProperty("KAFKA_SERVER", System.getenv("KAFKA_SERVER"));
 		}
 
 		SpringApplication.run(GrabAuthServiceApplication.class, args);

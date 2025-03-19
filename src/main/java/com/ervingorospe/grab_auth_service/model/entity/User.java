@@ -57,14 +57,14 @@ public class User {
 
     public User() {
         this.userRole = Role.CLIENT;
-        this.active = true; // to be change later when done setting up registration token
+        this.active = false; // to be change later when done setting up registration token
     }
 
     public User(UserRegistrationDTO userRegistrationDTO) {
         this.email = userRegistrationDTO.email();
         this.password = userRegistrationDTO.password();
         this.userRole = Optional.ofNullable(userRegistrationDTO.userRole()).orElse(Role.CLIENT);
-        this.active = true;
+        this.active = false;
     }
 
     public enum Role {

@@ -16,6 +16,13 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  jackson:
+    date-format: dd-MM-yyyy
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 
 jwt:

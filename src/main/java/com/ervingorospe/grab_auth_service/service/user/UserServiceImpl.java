@@ -6,6 +6,7 @@ import com.ervingorospe.grab_auth_service.model.DTO.UserRegistrationDTO;
 import com.ervingorospe.grab_auth_service.model.entity.User;
 import com.ervingorospe.grab_auth_service.model.entity.UserDetails;
 import com.ervingorospe.grab_auth_service.repository.UserRepo;
+import com.ervingorospe.grab_auth_service.service.kafka.KafkaProducerService;
 import com.ervingorospe.grab_auth_service.service.userAddress.UserAddressService;
 import com.ervingorospe.grab_auth_service.service.userDetails.UserDetailService;
 import jakarta.transaction.Transactional;
@@ -21,13 +22,15 @@ public class UserServiceImpl implements UserService{
     private final UserDetailService userDetailService;
     private final UserAddressService userAddressService;
     private final PasswordEncoder passwordEncoder;
+    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
-    public UserServiceImpl(UserRepo repository, UserDetailService userDetailService, UserAddressService userAddressService, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepo repository, UserDetailService userDetailService, UserAddressService userAddressService, PasswordEncoder passwordEncoder, KafkaProducerService kafkaProducerService) {
         this.repository = repository;
         this.userDetailService = userDetailService;
         this.userAddressService = userAddressService;
         this.passwordEncoder = passwordEncoder;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Override
@@ -46,6 +49,9 @@ public class UserServiceImpl implements UserService{
             User savedUser = repository.save(user);
             UserDetails userDetails = userDetailService.createUserDetails(userRegistrationDTO, user);
             userAddressService.createAddress(userRegistrationDTO, user);
+
+            // sending email
+            kafkaProducerService.sendVerificationEmail(savedUser.getId(), "registration");
 
             return new UserDTO(savedUser, userDetails);
         } catch (RuntimeException e) {
