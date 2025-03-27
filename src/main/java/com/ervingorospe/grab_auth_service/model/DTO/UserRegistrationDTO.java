@@ -6,7 +6,6 @@ import com.ervingorospe.grab_auth_service.validate.confirmPassword.PasswordMatch
 import com.ervingorospe.grab_auth_service.validate.phoneNumber.PhoneNumber;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
@@ -37,10 +36,6 @@ public record UserRegistrationDTO(
     @JsonProperty("contact_number")
     String contactNumber,
 
-    @NotNull(message = "Provide your address")
-    @Valid
-    UserAddressDTO address,
-
     @NotNull(message = "Provide Password")
     String password,
 
@@ -58,7 +53,6 @@ public record UserRegistrationDTO(
         String email,
         LocalDate birthDate,
         String contactNumber,
-        UserAddressDTO address,
         String password,
         String confirmPassword,
         String userRole
@@ -69,7 +63,6 @@ public record UserRegistrationDTO(
             email,
             birthDate,
             contactNumber,
-            address,
             password,
             confirmPassword,
             (userRole != null && !userRole.isBlank())

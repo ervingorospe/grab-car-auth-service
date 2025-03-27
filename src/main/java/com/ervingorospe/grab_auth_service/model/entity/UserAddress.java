@@ -58,15 +58,4 @@ public class UserAddress {
         this.longitude = longitude;
         this.user = user;
     }
-
-    public UserAddress(UserRegistrationDTO userRegistrationDTO) {
-        this.label = userRegistrationDTO.address().label();
-        this.street =  userRegistrationDTO.address().street();
-        this.city =  userRegistrationDTO.address().city();
-        this.state =  userRegistrationDTO.address().state();
-        this.postalCode =  userRegistrationDTO.address().postalCode();
-        this.country =  userRegistrationDTO.address().country();
-        this.latitude = userRegistrationDTO.address().latitude();
-        this.longitude = userRegistrationDTO.address().longitude();
-    }
 }
