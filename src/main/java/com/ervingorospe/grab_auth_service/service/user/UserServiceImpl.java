@@ -1,6 +1,8 @@
 package com.ervingorospe.grab_auth_service.service.user;
 
 import com.ervingorospe.grab_auth_service.handler.error.UserAlreadyExistsException;
+import com.ervingorospe.grab_auth_service.handler.error.UserNotFoundException;
+import com.ervingorospe.grab_auth_service.model.DTO.EmailDTO;
 import com.ervingorospe.grab_auth_service.model.DTO.UserDTO;
 import com.ervingorospe.grab_auth_service.model.DTO.UserRegistrationDTO;
 import com.ervingorospe.grab_auth_service.model.entity.User;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -47,11 +50,31 @@ public class UserServiceImpl implements UserService{
             UserDetails userDetails = userDetailService.createUserDetails(userRegistrationDTO, user);
 
             // sending email
-//            kafkaProducerService.sendVerificationEmail(savedUser.getId(), "registration");
+            kafkaProducerService.sendVerificationEmail(savedUser.getId(), "registration");
 
             return new UserDTO(savedUser, userDetails);
         } catch (RuntimeException e) {
             throw new RuntimeException("User registration failed");
         }
+    }
+
+    @Override
+    @Transactional
+    public String updateEmail(EmailDTO emailDTO, UUID id) {
+        User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException("User with email: " + id + " NOT FOUND"));
+
+        try {
+            user.setActive(false);
+            user.setEmail(emailDTO.email());
+            User savedUser = repository.save(user);
+
+            // sending email
+            kafkaProducerService.sendVerificationEmail(savedUser.getId(), "registration");
+
+            return "Email Updated";
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Changing Email failed");
+        }
+
     }
 }
