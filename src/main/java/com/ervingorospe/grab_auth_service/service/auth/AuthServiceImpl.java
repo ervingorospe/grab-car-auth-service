@@ -31,6 +31,10 @@ public class AuthServiceImpl implements AuthService{
             throw new UserNotFoundException("Invalid email or password");
         }
 
+        if (!user.getActive()) {
+            throw new UserNotFoundException("Your account is not yet active. Please check your email to activate it!");
+        }
+
         String token = jwtUtil.generateToken(user.getEmail());
         String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
 

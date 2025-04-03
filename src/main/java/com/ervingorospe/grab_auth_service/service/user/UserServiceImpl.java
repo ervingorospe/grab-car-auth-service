@@ -3,6 +3,7 @@ package com.ervingorospe.grab_auth_service.service.user;
 import com.ervingorospe.grab_auth_service.handler.error.UserAlreadyExistsException;
 import com.ervingorospe.grab_auth_service.handler.error.UserNotFoundException;
 import com.ervingorospe.grab_auth_service.model.DTO.EmailDTO;
+import com.ervingorospe.grab_auth_service.model.DTO.PasswordDTO;
 import com.ervingorospe.grab_auth_service.model.DTO.UserDTO;
 import com.ervingorospe.grab_auth_service.model.DTO.UserRegistrationDTO;
 import com.ervingorospe.grab_auth_service.model.entity.User;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public String updateEmail(EmailDTO emailDTO, UUID id) {
-        User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException("User with email: " + id + " NOT FOUND"));
+        User user = this.findUserById(id);
 
         try {
             user.setActive(false);
@@ -76,5 +77,23 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException("Changing Email failed");
         }
 
+    }
+
+    @Override
+    public String updatePassword(PasswordDTO passwordDTO, UUID id) {
+        User user = this.findUserById(id);
+
+        if (!passwordEncoder.matches(passwordDTO.currentPassword(), user.getPassword())) {
+            throw new UserNotFoundException("Invalid Current Password");
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordDTO.password()));
+        repository.save(user);
+
+        return "Password Updated";
+    }
+
+    private User findUserById(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id: " + id + " NOT FOUND"));
     }
 }
